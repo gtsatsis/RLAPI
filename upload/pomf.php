@@ -11,6 +11,11 @@ require('../../../../pgdbcreds.inc.php'); // Database Credentials
 parse_str($_SERVER['QUERY_STRING'], $get_array);
 $token = $get_array['key'];
 
+if(is_null($token) or !isset($token)) {
+	echo $noToken;
+	return;
+}
+
 $credentials = new Aws\Credentials\Credentials($s3APIKey, $s3APISecret);
 
 // Code Starts Here
@@ -20,7 +25,7 @@ if($allowed == "true"){
 	$s3 = new Aws\S3\S3Client([
     'version' => 'latest',
     'region'  => 'us-east-1',
-    'endpoint' => 'http://127.0.0.1:9000',
+    'endpoint' => 'http://192.168.25.14:9000',
     'credentials' => $credentials,
     's3ForcePathStyle' => true // Minio Compatibility (https://minio.io)
 ]);
@@ -30,25 +35,24 @@ foreach ($_FILES['files']['name'] as $files) {
 	/* 
 		|-------------------------------------------------------|
 		|Code taken from StackExchange							|
-		|Permalink: https://stackoverflow.com/a/5439548/8156177|
+		|Permalink: https://stackoverflow.com/a/5439548/8156177 |
 		|-------------------------------------------------------|
 	*/
+	 $extension = pathinfo($files, PATHINFO_EXTENSION); // get file extension
+	 $fileName = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 6)), 0, 6) . "." . $extension; // generate name and concatenate extension
+	 $tmpName = implode('', $_FILES['files']['tmp_name']);
+	 move_uploaded_file($tmpName, "/d2/RLTemp/" . $fileName);
 
- 	$fileName = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 6)), 0, 6);
-	echo $fileName;
+	 $result = $s3->putObject([
+		'Bucket' => 'owoapi',
+		'Key'    => $fileName,
+		'Body'   => fopen("/d2/RLTemp/" . $fileName, "r")
+	]);
+
+	unlink("/d2/RLTemp/" . $fileName);
+
+
 }
-
-print_r($_FILES);
-
-
-// Send a PutObject request and get the result object.
-/*$result = $s3->putObject([
-    'Bucket' => 'owoapi',
-    'Key'    => $fileName,
-    'Body'   => $_FILES['files[]']
-]);*/
-
-echo "If this has worked, the filename should be" . $fileName . "if not, you've actually managed to fuck up for like the 100th(thousand) time.....";
 
 }elseif($allowed == "false"){
 	echo $tokenIsBlocked;

@@ -24,7 +24,7 @@ function authenticate($token){
 			if ($isblocked == 't'){
 				echo $tokenIsBlocked;
 				$allowed = "false";
-				}elseif($isblocked == 'f' || null){
+				} elseif($isblocked == 'f' || null) {
 					$allowed = "true";
 				}
 			}	

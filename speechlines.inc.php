@@ -43,4 +43,16 @@ $invalidToken = "
 	</style>
 	<p>Your token is NOT authorized to use this service. If you think this is in error, please contact an administrator</p>
 	</html>";
+
+$noToken = "
+<html>
+<style>
+	<style type=\"text/css\">
+		p {
+			color: #fff;
+			font-family: Helvetica, Whitney;
+		}
+	</style>
+	<p>You need to provide a token! (?key parameter)</p>
+	</html>";
 ?>
