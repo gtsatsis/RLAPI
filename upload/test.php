@@ -8,9 +8,9 @@
 </head>
 <body>
     <form action="pomf.php?key=916b97e2-e30a-4714-8da2-f03d1f2df786" method="post" enctype="multipart/form-data">
-    <p>Imagens:
+    <p>Images:
     <input type="file" name="files[]" />
-    <input type="submit" value="Enviar" />
+    <input type="submit" value="Send" />
     </p>
     </form>
 </body>

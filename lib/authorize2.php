@@ -16,7 +16,7 @@
 /* This project requires */
 require '../vendor/autoload.php'; // Composer Autoloader
 require '../speechlines.inc.php'; // Speech Lines ($messages for the user)
-require '../../../../pgdbcreds.inc.php'; // Database Credentials
+require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
 /**
  * Authenticate a user token
  *

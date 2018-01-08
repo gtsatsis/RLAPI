@@ -29,7 +29,7 @@ require '../vendor/autoload.php'; // Composer Auto-loader
 require '../lib/authorize2.php'; // Authorization Library
 require '../speechlines.inc.php'; // Speech Lines ($dbConnFailed etc)
 require '../../../../S3APICredStore/s3Credentials.inc.php'; // S3 API Credentials
-require '../../../../pgdbcreds.inc.php'; // Database Credentials
+require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
 
 // Pass all the GET parameters to an array
 parse_str($_SERVER['QUERY_STRING'], $get_array);
