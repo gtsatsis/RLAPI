@@ -1,4 +1,10 @@
 <?php
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // This project requires:
 require('../vendor/autoload.php'); // Composer Autoloader
 require('../lib/authorize2.php'); // Authorization Library
