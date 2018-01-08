@@ -49,6 +49,8 @@ foreach ($_FILES['files']['name'] as $files) {
 	 $tmpName = implode('', $_FILES['files']['tmp_name']);
 	 move_uploaded_file($tmpName, "/d2/RLTemp/" . $fileName);
 
+	 echo $fileName;
+
 	 $result = $s3->putObject([
 		'Bucket' => 'owoapi',
 		'Key'    => $fileName,
