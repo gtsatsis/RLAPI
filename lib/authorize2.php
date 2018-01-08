@@ -26,6 +26,7 @@ require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
  */
 function authenticate($token)
 {
+require('../../../../rl1-pgdbcreds.inc.php');
     /**
      * Make @allowed variable global
      * 
