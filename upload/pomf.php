@@ -8,6 +8,7 @@ error_reporting(E_ALL);
 // This project requires:
 require('../vendor/autoload.php'); // Composer Autoloader
 require('../lib/authorize2.php'); // Authorization Library
+require('../lib/log.lib.php'); // Logging Library
 require('../speechlines.inc.php'); // Speech Lines ($dbConnFailed etc)
 require('../../../../S3APICredStore/s3Credentials.inc.php'); // S3 API Creds
 require('../../../../pgdbcreds.inc.php'); // Database Credentials
@@ -62,6 +63,9 @@ foreach ($_FILES['files']['name'] as $files) {
        )
       );
 
+	$md5 = md5_file('/d2/RLTemp/'.$fileName);
+	$sha1 = sha1_file('/d2/RLTemp/'.$fileName);
+	
 	 $result = $s3->putObject(array(
 		'Bucket' => 'owoapi',
 		'Key'    => $fileName,
@@ -71,6 +75,7 @@ foreach ($_FILES['files']['name'] as $files) {
 
 	unlink("/d2/RLTemp/" . $fileName);
 	echo json_encode($fileNames);
+	logtoDB($token,$fileName,implode($_FILES['files']['name']),time(),$md5,$sha1);
 
 }
 
