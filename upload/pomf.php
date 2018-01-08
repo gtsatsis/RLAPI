@@ -31,9 +31,10 @@ if($allowed == "true"){
 	$s3 = new Aws\S3\S3Client([
     'version' => 'latest',
     'region'  => 'us-east-1',
-    'endpoint' => 'http://192.168.25.14:9000',
+    'endpoint' => 'http://127.0.0.1:9000/',
     'credentials' => $credentials,
-    's3ForcePathStyle' => true // Minio Compatibility (https://minio.io)
+    //'signature'  => 'v4',
+    'use_path_style_endpoint' => true // Minio Compatibility (https://minio.io)
 ]);
 
 foreach ($_FILES['files']['name'] as $files) {
@@ -49,16 +50,27 @@ foreach ($_FILES['files']['name'] as $files) {
 	 $tmpName = implode('', $_FILES['files']['tmp_name']);
 	 move_uploaded_file($tmpName, "/d2/RLTemp/" . $fileName);
 
-	 echo $fileName;
+	$fileNames = array(
+	'success' => true,
+	'files' => array(
+	array(
+	 'url' => $fileName,
+	 'name' => implode($_FILES['files']['name']),
+	 'hash_md5' => md5_file('/d2/RLTemp/'.$fileName),
+	 'hash_sha1' => sha1_file('/d2/RLTemp/'.$fileName)
+	)
+       )
+      );
 
-	 $result = $s3->putObject([
+	 $result = $s3->putObject(array(
 		'Bucket' => 'owoapi',
 		'Key'    => $fileName,
-		'Body'   => fopen("/d2/RLTemp/" . $fileName, "r")
-	]);
+		'SourceFile'   => "/d2/RLTemp/" . $fileName,
+		'ACL'	=> 'public-read'
+	));
 
 	unlink("/d2/RLTemp/" . $fileName);
-
+	echo json_encode($fileNames);
 
 }
 
