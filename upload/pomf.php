@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 // This project requires:
 require('../vendor/autoload.php'); // Composer Autoloader
 require('../lib/authorize2.php'); // Authorization Library
-require('../lib/log.lib.php'); // Logging Library
+require('../lib/log-lib.php'); // Logging Library
 require('../speechlines.inc.php'); // Speech Lines ($dbConnFailed etc)
 require('../../../../S3APICredStore/s3Credentials.inc.php'); // S3 API Creds
 require('../../../../pgdbcreds.inc.php'); // Database Credentials
