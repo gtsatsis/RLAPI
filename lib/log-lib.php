@@ -1,6 +1,5 @@
 <?php
-require('../vendor/autoload.php'); //Composer Autoloader
-require('../../../../pgdbcreds.inc.php'); // Database Credentials
+require('../../../../pgdbcreds.inc.php');
 
 function logtoDB($token,$fileName,$originalFileName,$timestampOfUpload,$md5Hash,$SHA1Hash){
 	$logQuery = "INSERT INTO logs (token, filename, originalfilename, timestamp, md5hash, sha1hash) VALUES ('$token', '$fileName', '$originalFileName', '$timestampOfUpload', '$md5Hash', '$SHA1Hash')";
