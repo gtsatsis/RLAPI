@@ -80,13 +80,16 @@ if ($allowed == "true") {
          // Get the uploaded file's extension
         $extension = pathinfo($files, PATHINFO_EXTENSION);
 
-        // Generate a random name
-        $fileName = substr(
-            str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 6)), 0, 6
-        );
+        $switch = false;
 
-        // Add file extension
-        $fileName .= "." . $extension;
+        while($switch === false) {
+            if(isUnique($fileName)) {
+                $switch = true;
+            } else {
+                $fileName = generateFileName($extension);
+                $switch = false;
+            }
+        }
 
         /**
          * Little hack to convert from array to string by imploding with no 
