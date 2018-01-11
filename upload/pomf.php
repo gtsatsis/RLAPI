@@ -28,6 +28,7 @@ error_reporting(E_ALL);
 require '../vendor/autoload.php'; // Composer Auto-loader
 require '../lib/authorize2.php'; // Authorization Library
 require '../lib/log-lib.php'; // Logging Library
+require '../lib/filename.php'; // Filename-related functions
 require '../speechlines.inc.php'; // Speech Lines ($dbConnFailed etc)
 require '../../../../S3APICredStore/s3Credentials.inc.php'; // S3 API Credentials
 require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
