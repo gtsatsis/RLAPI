@@ -16,12 +16,11 @@ function generateFileName($extension)
     return $fileName;
 }
 
-function isUnique($fileName)
+function isUnique($filename)
 {
-    global $fileName;
-    $headers = get_headers("https://ratelimited.me/" . $fileName);
-    if(substr($headers[0], 9, 3) == "404") {
-        return false;
+    $headers = get_headers("https://ratelimited.me/" . $filename);
+    if (substr($headers[0], 9, 3) == "404") {
+        return true;
     }
-    return true;
+    return false;
 }

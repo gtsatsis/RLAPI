@@ -64,6 +64,14 @@ if ($allowed == "true") {
         ]
     );
 
+    /*  
+        If $_FILES is empty, then the user has not posted any files. 
+        Die with an error to prevent PHP warnings 
+    */
+    if(empty($_FILES)) {
+        echo "You need to supply files to be upload using HTTP POST (files[])!";
+        return;
+    }
     /**
      * Foreach loop to process files
      * 
@@ -81,13 +89,13 @@ if ($allowed == "true") {
          // Get the uploaded file's extension
         $extension = pathinfo($files, PATHINFO_EXTENSION);
 
-        $switch = false;
+        $fileName = generateFileName($extension);
 
+        $switch = false;
         while($switch === false) {
             if(isUnique($fileName)) {
                 $switch = true;
             } else {
-                $fileName = generateFileName($extension);
                 $switch = false;
             }
         }
@@ -109,7 +117,7 @@ if ($allowed == "true") {
 
         /* Create array with file data */
         $fileNames = array(
-            'success' => true, // If the user got here, we had success
+            'success' => true, // If the user got here, we had success    
             'files' => array( // Add files to an array
                         array(
                             // Filename (on the server)
@@ -145,7 +153,7 @@ if ($allowed == "true") {
 		echo json_encode($fileNames);
 		
 		// Log to database
-		logtoDB($token,$fileName,implode($_FILES['files']['name']),time(),$md5,$sha1);
+		//logtoDB($token,$fileName,implode($_FILES['files']['name']),time(),$md5,$sha1);
 
     }
   

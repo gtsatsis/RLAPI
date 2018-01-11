@@ -26,13 +26,14 @@ require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
  */
 function authenticate($token)
 {
-require('../../../../rl1-pgdbcreds.inc.php');
+//require('../../../../rl1-pgdbcreds.inc.php');
     /**
      * Make @allowed variable global
      * 
      * @todo Avoid globals replacing them with something else
      */
     global $allowed;
+
     /* Preg match the token into a sanitized filtered token variable */
     preg_match(
         "/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i",
