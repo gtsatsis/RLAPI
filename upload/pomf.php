@@ -30,8 +30,8 @@ require '../lib/authorize2.php'; // Authorization Library
 require '../lib/log-lib.php'; // Logging Library
 require '../lib/filename.php'; // Filename-related functions
 require '../speechlines.inc.php'; // Speech Lines ($dbConnFailed etc)
-require '../../../../S3APICredStore/s3Credentials.inc.php'; // S3 API Credentials
-require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
+require '../../../S3APICredStore/s3Credentials.inc.php'; // S3 API Credentials
+require '../../../rl1-pgdbcreds.inc.php'; // Database Credentials
 
 /* Define Filesizes in bytes for convenience 
 (Code taken from StackOverflow: https://stackoverflow.com/a/14758827/8156177 */
@@ -83,20 +83,23 @@ if ($allowed === true) {
         echo "You need to supply files to be upload using HTTP POST (files[])!";
         return;
     }
-	
-	if 
+ 
     /**
      * Foreach loop to process files
      * 
      * @todo Better error handling and reporting
      */
     foreach ($_FILES['files']['name'] as $files) {
- 	if($donorLevel == "free" && $_FILES['files']['size'] > 100*MB){
-	echo "Sorry, but this file is too big for your donation tier of: Free. Please donate in order to upload bigger files."}
-	if($donorLevel == "platinum" && $_FILES['files']['size'] > 250*MB){
-	echo "Sorry, but this file is too big for your donation tier of: Platinum. Please donate in order to upload bigger files."}
- 	if($donorLevel == "gold" && $_FILES['files']['size'] > 500*MB){
-	echo "Sorry, but this file is too big for your donation tier of: Gold. Please donate in order to upload bigger files."}
+	$filesize = implode($_FILES['files']['size']);
+ 	if($donorLevel == "free" && $filesize > 104857600){
+	echo "Sorry, but this file is too big for your donation tier of: Free. Please donate in order to upload bigger files.";
+	die();}
+	if($donorLevel == "platinum" && $filesize > 262144000){
+	echo "Sorry, but this file is too big for your donation tier of: Platinum. Please donate in order to upload bigger files.";
+	die();}
+ 	if($donorLevel == "gold" && $filesize > 524288000){
+	echo "Sorry, but this file is too big for your donation tier of: Gold. Please donate in order to upload bigger files.";
+	die();}
         /*
             |-------------------------------------------------------|
             |Code taken from StackExchange                          |

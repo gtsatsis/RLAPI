@@ -16,7 +16,7 @@
 /* This project requires */
 require '../vendor/autoload.php'; // Composer Autoloader
 require '../speechlines.inc.php'; // Speech Lines ($messages for the user)
-require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
+require '../../../rl1-pgdbcreds.inc.php'; // Database Credentials
 
 /**
  * Authenticate a user token
@@ -27,7 +27,7 @@ require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
  */
 function authenticate($token)
 {
-    require('../../../../rl1-pgdbcreds.inc.php');
+    require('../../../rl1-pgdbcreds.inc.php');
     /**
      * Make allowed variable global
      * 
@@ -78,7 +78,7 @@ function authenticate($token)
             $allowed = true;
         }
         
-        $donationLevel = $userRow->donationLevel;
+        $donationLevel = $userRow->donationlevel;
         
         if($donationLevel == "free" || $donationLevel == null){
         $donorLevel = "free";
