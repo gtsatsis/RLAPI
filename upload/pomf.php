@@ -83,8 +83,7 @@ if ($allowed === true) {
         echo "You need to supply files to be upload using HTTP POST (files[])!";
         return;
     }
-	
-	if 
+
     /**
      * Foreach loop to process files
      * 
