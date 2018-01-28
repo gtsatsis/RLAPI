@@ -33,6 +33,13 @@ require '../speechlines.inc.php'; // Speech Lines ($dbConnFailed etc)
 require '../../../../S3APICredStore/s3Credentials.inc.php'; // S3 API Credentials
 require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
 
+/* Define Filesizes in bytes for convenience 
+(Code taken from StackOverflow: https://stackoverflow.com/a/14758827/8156177 */
+define('KB', 1024);
+define('MB', 1048576);
+define('GB', 1073741824);
+define('TB', 1099511627776);
+
 // Pass all the GET parameters to an array
 parse_str($_SERVER['QUERY_STRING'], $get_array);
 
@@ -76,13 +83,20 @@ if ($allowed === true) {
         echo "You need to supply files to be upload using HTTP POST (files[])!";
         return;
     }
+	
+	if 
     /**
      * Foreach loop to process files
      * 
      * @todo Better error handling and reporting
      */
     foreach ($_FILES['files']['name'] as $files) {
-
+ 	if($donorLevel == "free" && $_FILES['files']['size'] > 100*MB){
+	echo "Sorry, but this file is too big for your donation tier of: Free. Please donate in order to upload bigger files."}
+	if($donorLevel == "platinum" && $_FILES['files']['size'] > 250*MB){
+	echo "Sorry, but this file is too big for your donation tier of: Platinum. Please donate in order to upload bigger files."}
+ 	if($donorLevel == "gold" && $_FILES['files']['size'] > 500*MB){
+	echo "Sorry, but this file is too big for your donation tier of: Gold. Please donate in order to upload bigger files."}
         /*
             |-------------------------------------------------------|
             |Code taken from StackExchange                          |
@@ -118,7 +132,7 @@ if ($allowed === true) {
          * @todo Make the path configurable
          */
         move_uploaded_file($tmpName, "/d2/RLTemp/" . $fileName);
-
+	
         /* Create array with file data */
         $fileNames = array(
             'success' => true, // If the user got here, we had success    
@@ -138,7 +152,6 @@ if ($allowed === true) {
 		/* Create file hashes (md5 and sha1) */
 		$md5 = md5_file('/d2/RLTemp/'.$fileName);
 		$sha1 = sha1_file('/d2/RLTemp/'.$fileName);
-
 
         /* Put the file in the Minio/S3 bucket */
         $result = $s3->putObject(
