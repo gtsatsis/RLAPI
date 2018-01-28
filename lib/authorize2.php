@@ -75,7 +75,7 @@ function authenticate($token)
         }
 
         if(is_null($isblocked) or empty($isblocked)) {
-            $allowed = false;
+            $allowed = true;
         }
     }
 }
