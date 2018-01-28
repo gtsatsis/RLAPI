@@ -17,6 +17,7 @@
 require '../vendor/autoload.php'; // Composer Autoloader
 require '../speechlines.inc.php'; // Speech Lines ($messages for the user)
 require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
+
 /**
  * Authenticate a user token
  *
@@ -26,20 +27,16 @@ require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
  */
 function authenticate($token)
 {
-require('../../../../rl1-pgdbcreds.inc.php');
+    require('../../../../rl1-pgdbcreds.inc.php');
     /**
-     * Make @allowed variable global
+     * Make allowed variable global
      * 
      * @todo Avoid globals replacing them with something else
      */
     global $allowed;
 
-    /* Preg match the token into a sanitized filtered token variable */
-    preg_match(
-        "/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i",
-        $token,
-        $filteredToken
-    );
+    $token = explode(' ', $token);
+
     /* Prepare PostgreSQL query */
     $tokencomparison = pg_prepare(
         $database,
@@ -48,7 +45,7 @@ require('../../../../rl1-pgdbcreds.inc.php');
     );
     /* Execute PostgreSQL query */
     $tokencomparisonresult = pg_execute(
-        $database, "fetch-token-by-token", $filteredToken
+        $database, "fetch-token-by-token", $token
     );
     // The row that pulled from the database
     $tokenrow = pg_fetch_object($tokencomparisonresult);
@@ -67,14 +64,18 @@ require('../../../../rl1-pgdbcreds.inc.php');
         $userResult = pg_query($database, $userGet);
         // The row containing data
         $userRow = pg_fetch_object($userResult);
-        // Fetch wheter the user is valid or not to a variable
+        // Fetch whether the user is valid or not to a variable
         $isblocked = $userRow->is_blocked;
         /* If we got an allowed user, allowed = true and vice-versa */
         if ($isblocked == 't') {
-            echo $tokenIsBlocked;
-            $allowed = "false";
-        } elseif ($isblocked == 'f' || null) {
-            $allowed = "true";
+            $allowed = false;
+        }
+        if ($isblocked == 'f') {
+            $allowed = true;
+        }
+
+        if(is_null($isblocked) or empty($isblocked)) {
+            $allowed = false;
         }
     }
 }

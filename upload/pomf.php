@@ -37,7 +37,7 @@ require '../../../../rl1-pgdbcreds.inc.php'; // Database Credentials
 parse_str($_SERVER['QUERY_STRING'], $get_array);
 
 // Extract the token (?key) to the $token variable
-$token = $get_array['key'];
+$token = $_GET['key'];
 
 /* If no token is provided, report to the user and die */
 if (is_null($token) or !isset($token)) {
@@ -51,13 +51,17 @@ $credentials = new Aws\Credentials\Credentials($s3APIKey, $s3APISecret);
 // Authenticate using the provided token
 authenticate($token);
 
-/* If the token is allowed, create s3 client and start proccessing files */
-if ($allowed == "true") {
+if($allowed === false) {
+    echo $tokenIsBlocked;
+}
+
+/* If the token is allowed, create s3 client and start processing files */
+if ($allowed === true) {
     $s3 = new Aws\S3\S3Client(
         [
             'version' => 'latest', // Latest S3 version
             'region'  => 'us-east-1', // The service's region
-            'endpoint' => 'http://127.0.0.1:9000/', // API to point to
+            'endpoint' => 'http://127.0.0.1:9000', // API to point to
             'credentials' => $credentials, // Credentials (s3Credentials.inc.php)
             //'signature'  => 'v4',
             'use_path_style_endpoint' => true // Minio Compatible (https://minio.io)
@@ -142,7 +146,7 @@ if ($allowed == "true") {
             'Bucket' => 'owoapi', // Bucket name
             'Key'    => $fileName, // Key = File name (on the server)
             'SourceFile'   => "/d2/RLTemp/" . $fileName, // The file to be put
-            'ACL'    => 'public-read' // Access Control List  set to public read
+            'ACL'    => 'public-read' // Access Control List set to public read
             )
         );
 
@@ -153,14 +157,7 @@ if ($allowed == "true") {
 		echo json_encode($fileNames);
 		
 		// Log to database
-		//logtoDB($token,$fileName,implode($_FILES['files']['name']),time(),$md5,$sha1);
+		logtoDB($token,$fileName,implode($_FILES['files']['name']),time(),$md5,$sha1);
 
-    }
-  
-    /* If the  user token is not allowed, throw tokenIsBlocked speech line */
-} elseif ($allowed == "false") {
-    echo $tokenIsBlocked;
-} else {
-    /* If the  user token is not valid, throw invalidToken speech line */
-    echo $invalidToken;
+    } 
 }
