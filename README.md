@@ -1,6 +1,6 @@
-# Project Title
+# RLAPI
 
-One Paragraph of project description goes here
+RLAPI is the new RATELIMITED file hosting API, allowing for file uploading & handling in a fast and lightweight manner.
 
 ## Getting Started
 
