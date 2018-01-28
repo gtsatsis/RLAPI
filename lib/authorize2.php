@@ -33,7 +33,7 @@ function authenticate($token)
      * 
      * @todo Avoid globals replacing them with something else
      */
-    global $allowed;
+    global $allowed, $donorLevel;
 
     $token = explode(' ', $token);
 
@@ -77,5 +77,20 @@ function authenticate($token)
         if(is_null($isblocked) or empty($isblocked)) {
             $allowed = true;
         }
+        
+        $donationLevel = $userRow->donationLevel;
+        
+        if($donationLevel == "free" || $donationLevel == null){
+        $donorLevel = "free";
+        }
+        
+        if($donationLevel == "platinum"){
+        $donorLevel = "platinum";
+        }
+        
+        if($donationLevel == "gold"){
+        $donorLevel = "gold";
+        }
+        
     }
 }
