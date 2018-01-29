@@ -54,7 +54,7 @@ Give an example
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+What's a production environment? In all seriousness, this is not production-ready and you shouldn't be trying to put it into prod
 
 ## Built With
 
