@@ -24,5 +24,6 @@ if($isAdmin == true){
   print_r($uuid4); //Debug
   
 }else{
-return "Unauthorized"}
+return "Unauthorized";
+}
 ?>
