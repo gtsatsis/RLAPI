@@ -11,46 +11,31 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 ```
-Give examples
+PHP 7.x
+Apache/NGINX/A PHP Capable Webserver
+Minio (Can be found on minio.io)
+Postgres
+Our sample Database File (Will be uploaded later on. Currently working on polishing our software :) )
+
+Also, you'll need a brain!
 ```
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
+Once you have installed all the prerequisites, clone this git repo to your working directory.
 
-Say what the step will be
+Import the database file into PostgreSQL and make sure to edit your token.
 
-```
-Give the example
-```
+Currently, there is no configuration and everything is hardcoded, as such, please edit the files and the requirements accordingly with the file locations that you are going to have.
 
-And repeat
+Once done, POST to the api with a file in the form files\[\].
 
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+Note: Do not forget to change your token in the database!
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+Testing is fairly simple, just POST to the API and voila!
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ## Deployment
 
@@ -78,7 +63,7 @@ See also the list of [contributors](https://github.com/gtsatsis/RLAPI/contributo
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
 
 ## Acknowledgments
 
