@@ -73,23 +73,24 @@ function authenticate($token)
         if ($isblocked == 'f') {
             $allowed = true;
         }
-
+        /* If is_blocked is null, then allow access*/
         if(is_null($isblocked) or empty($isblocked)) {
             $allowed = true;
         }
-        
+        /* Define $donationLevel and the donor levels */
         $donationLevel = $userRow->donationlevel;
-        
         if($donationLevel == "free" || $donationLevel == null){
         $donorLevel = "free";
         }
-        
         if($donationLevel == "platinum"){
         $donorLevel = "platinum";
         }
-        
         if($donationLevel == "gold"){
         $donorLevel = "gold";
+        }
+        /* Define $isAdmin and add proper checks */
+        if($userRow->is_admin == 't'){
+            $isAdmin = true;
         }
         
     }
