@@ -80,7 +80,11 @@ if ($allowed === true) {
         Die with an error to prevent PHP warnings 
     */
     if(empty($_FILES)) {
-        echo "You need to supply files to be upload using HTTP POST (files[])!";
+        echo "{
+  \"success\": false,
+  \"errorcode\": 405,
+  \"description\": \"You need to supply files to be upload using HTTP POST (files[])!\"
+}";
         return;
     }
 
@@ -92,13 +96,13 @@ if ($allowed === true) {
     foreach ($_FILES['files']['name'] as $files) {
 	$filesize = implode($_FILES['files']['size']);
  	if($donorLevel == "free" && $filesize > 104857600){
-	echo "Sorry, but this file is too big for your donation tier of: Free. Please donate in order to upload bigger files.";
+	echo "{\"success\": false,\"errorcode\": 402,\"description\": \"Sorry, but this file is too big for your donation tier of: Free. Please donate in order to upload bigger files\"}";
 	die();}
 	if($donorLevel == "platinum" && $filesize > 262144000){
-	echo "Sorry, but this file is too big for your donation tier of: Platinum. Please donate in order to upload bigger files.";
+	echo "{\"success\": false,\"errorcode\": 402,\"description\": \"Sorry, but this file is too big for your donation tier of: Platinum. Please donate in order to upload bigger files\"}";
 	die();}
  	if($donorLevel == "gold" && $filesize > 524288000){
-	echo "Sorry, but this file is too big for your donation tier of: Gold. Please donate in order to upload bigger files.";
+	echo "{\"success\": false,\"errorcode\": 402,\"description\": \"Sorry, but this file is too big for your donation tier of: Gold. Please donate in order to upload bigger files.\"}";
 	die();}
         /*
             |-------------------------------------------------------|
