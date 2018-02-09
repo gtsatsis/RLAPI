@@ -20,9 +20,9 @@
   *
   * @todo Remove when in production to avoid attacks and exploits
   */
-ini_set('display_errors', 1);
+/**ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL);*/
 
 /* This project requires the following files: */
 require '../vendor/autoload.php'; // Composer Auto-loader
