@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 /* Define the token variable*/
-$token = $_GET['key'];
+$token = $_POST['key'];
 
 /* If no token is provided, report to the user and die */
 if (is_null($token) or !isset($token)) {
