@@ -33,7 +33,7 @@ function authenticate($token)
      * 
      * @todo Avoid globals replacing them with something else
      */
-    global $allowed, $donorLevel;
+    global $allowed, $donorLevel, $isAdmin;
 
     $token = explode(' ', $token);
 
