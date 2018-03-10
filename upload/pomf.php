@@ -176,8 +176,12 @@ if ($allowed === true) {
         // Print the array as JSON for ShareX compatibility
 		echo json_encode($fileNames);
 		
+		// Sanitize original filename
+		$removeFromStr[] = "'";
+		$removeFromStr[] = "=";
+		$origFileName = str_replace( $removeFromStr, "", implode($_FILES['files']['name']) );
 		// Log to database
-		logtoDB($token,$fileName,implode($_FILES['files']['name']),time(),$md5,$sha1);
+		logtoDB($token,$fileName,$origFileName,time(),$md5,$sha1);
 
     } 
 }
