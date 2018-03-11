@@ -43,7 +43,7 @@ define('TB', 1099511627776);
 /* Killswitch Mode / Maintenance Mode */
 $killSwitch = false;
 if($killSwitch == true){
-echo json_encode(array('success' => false, 'details' => 'Killswitch Mode Active; Possible maintenance'));
+echo json_encode(array('success' => false, 'files' => 'Killswitch Mode Active; Possible maintenance', 'details' => 'Killswitch Mode Active; Possible maintenance'));
 	die();
 }
 
