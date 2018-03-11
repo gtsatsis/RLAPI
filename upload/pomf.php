@@ -40,6 +40,13 @@ define('MB', 1048576);
 define('GB', 1073741824);
 define('TB', 1099511627776);
 
+/* Killswitch Mode / Maintenance Mode */
+$killSwitch = false;
+if($killSwitch == true){
+echo json_encode(array('success' => false, 'details' => 'Killswitch Mode Active; Possible maintenance'));
+	die();
+}
+
 // Pass all the GET parameters to an array
 parse_str($_SERVER['QUERY_STRING'], $get_array);
 
