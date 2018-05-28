@@ -118,6 +118,7 @@ if ($allowed === true) {
                 $switch = true;
             } else {
                 $switch = false;
+                $fileName = generateFileName($extension);
             }
         }
 
