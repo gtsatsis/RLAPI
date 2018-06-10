@@ -77,6 +77,11 @@ function authenticate($token)
         if(is_null($isblocked) or empty($isblocked)) {
             $allowed = true;
         }
+        
+        /* Define $hasPaid and the hasPaid check */
+        
+        $hasPaid = $userRow->haspaid;
+        
         /* Define $donationLevel and the donor levels */
         $donationLevel = $userRow->donationlevel;
         if($donationLevel == "free" || $donationLevel == null){
@@ -88,6 +93,7 @@ function authenticate($token)
         if($donationLevel == "gold"){
         $donorLevel = "gold";
         }
+        
         /* Define $isAdmin and add proper checks */
         if($userRow->is_admin == 't'){
             $isAdmin = true;
