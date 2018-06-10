@@ -71,6 +71,7 @@ if($allowed === false) {
 
 /* If the token is allowed, create s3 client and start processing files */
 if ($allowed === true) {
+   if($hasPaid === true){
     $s3 = new Aws\S3\S3Client(
         [
             'version' => 'latest', // Latest S3 version
@@ -191,5 +192,14 @@ if ($allowed === true) {
 		// Log to database
 		logtoDB($token,$fileName,$origFileName,time(),$md5,$sha1);
 
-    } 
+    }
+   }elseif(isnull($hasPaid) || $hasPaid == false){
+	$paymentRequired = array(
+		'success' => false,
+		'errorcode' => 402
+		'url' => 'Error: Payment Required.'
+		'name' => 'Error: Payment Required.'
+		)
+		echo json_encode($paymentRequired);
+   }
 }
