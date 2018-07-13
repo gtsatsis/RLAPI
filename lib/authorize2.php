@@ -18,6 +18,8 @@ require '../vendor/autoload.php'; // Composer Autoloader
 require '../speechlines.inc.php'; // Speech Lines ($messages for the user)
 require '../../../rl1-pgdbcreds.inc.php'; // Database Credentials
 
+$rlmeInstance = false;
+
 /**
  * Authenticate a user token
  *
@@ -80,7 +82,9 @@ function authenticate($token)
         
         /* Define $hasPaid and the hasPaid check */
         
-        $hasPaid = $userRow->haspaid;
+        if($rlmeInstance = true){
+        $migrated = $userRow->migratedtorlauth;
+        }
         
         /* Define $donationLevel and the donor levels */
         $donationLevel = $userRow->donationlevel;
