@@ -193,13 +193,13 @@ if ($allowed === true) {
 		logtoDB($token,$fileName,$origFileName,time(),$md5,$sha1);
 
     }
-   }elseif(isnull($hasPaid) || $hasPaid == false){
-	$paymentRequired = array(
+   }elseif(isnull($migrated) || $migrated == false){
+	$migrationRequired = array(
 		'success' => false,
-		'errorcode' => 402
-		'url' => 'Error: Payment Required.'
-		'name' => 'Error: Payment Required.'
+		'errorcode' => 401
+		'url' => 'Error: Please migrate to continue.'
+		'name' => 'Error: Please migrate to continue.'
 		)
-		echo json_encode($paymentRequired);
+		echo json_encode($migrationRequired);
    }
 }
