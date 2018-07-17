@@ -1,8 +1,3 @@
 # Users Endpoint
 
-This is an unfinished user management endpoint for the API.
-
-TODO:
-- Finish user creation endpoint.
-- Start work on ban endpoint.
-- Start work on detail management endpoint.
+This endpoint will be re-written and finished in RLAPI v2.0
