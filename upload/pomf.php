@@ -20,9 +20,9 @@
   *
   * @todo Remove when in production to avoid attacks and exploits
   */
-ini_set('display_errors', 1);
+/**ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL);*/
 
 /* This project requires the following files: */
 require '../vendor/autoload.php'; // Composer Auto-loader
@@ -39,6 +39,13 @@ define('KB', 1024);
 define('MB', 1048576);
 define('GB', 1073741824);
 define('TB', 1099511627776);
+
+/* Killswitch Mode / Maintenance Mode */
+$killSwitch = false;
+if($killSwitch == true){
+echo json_encode(array('success' => false, 'files' => 'Killswitch Mode Active; Possible maintenance', 'details' => 'Killswitch Mode Active; Possible maintenance'));
+	die();
+}
 
 // Pass all the GET parameters to an array
 parse_str($_SERVER['QUERY_STRING'], $get_array);
@@ -64,6 +71,7 @@ if($allowed === false) {
 
 /* If the token is allowed, create s3 client and start processing files */
 if ($allowed === true) {
+   if($hasPaid === true){
     $s3 = new Aws\S3\S3Client(
         [
             'version' => 'latest', // Latest S3 version
@@ -80,7 +88,11 @@ if ($allowed === true) {
         Die with an error to prevent PHP warnings 
     */
     if(empty($_FILES)) {
-        echo "You need to supply files to be upload using HTTP POST (files[])!";
+        echo "{
+  \"success\": false,
+  \"errorcode\": 405,
+  \"description\": \"You need to supply files to be upload using HTTP POST (files[])!\"
+}";
         return;
     }
 
@@ -92,13 +104,13 @@ if ($allowed === true) {
     foreach ($_FILES['files']['name'] as $files) {
 	$filesize = implode($_FILES['files']['size']);
  	if($donorLevel == "free" && $filesize > 104857600){
-	echo "Sorry, but this file is too big for your donation tier of: Free. Please donate in order to upload bigger files.";
+	echo "{\"success\": false,\"errorcode\": 402,\"description\": \"Sorry, but this file is too big for your donation tier of: Free. Please donate in order to upload bigger files\"}";
 	die();}
 	if($donorLevel == "platinum" && $filesize > 262144000){
-	echo "Sorry, but this file is too big for your donation tier of: Platinum. Please donate in order to upload bigger files.";
+	echo "{\"success\": false,\"errorcode\": 402,\"description\": \"Sorry, but this file is too big for your donation tier of: Platinum. Please donate in order to upload bigger files\"}";
 	die();}
  	if($donorLevel == "gold" && $filesize > 524288000){
-	echo "Sorry, but this file is too big for your donation tier of: Gold. Please donate in order to upload bigger files.";
+	echo "{\"success\": false,\"errorcode\": 402,\"description\": \"Sorry, but this file is too big for your donation tier of: Gold. Please donate in order to upload bigger files.\"}";
 	die();}
         /*
             |-------------------------------------------------------|
@@ -118,6 +130,7 @@ if ($allowed === true) {
                 $switch = true;
             } else {
                 $switch = false;
+                $fileName = generateFileName($extension);
             }
         }
 
@@ -172,8 +185,21 @@ if ($allowed === true) {
         // Print the array as JSON for ShareX compatibility
 		echo json_encode($fileNames);
 		
+		// Sanitize original filename
+		$removeFromStr[] = "'";
+		$removeFromStr[] = "=";
+		$origFileName = str_replace( $removeFromStr, "", implode($_FILES['files']['name']) );
 		// Log to database
-		logtoDB($token,$fileName,implode($_FILES['files']['name']),time(),$md5,$sha1);
+		logtoDB($token,$fileName,$origFileName,time(),$md5,$sha1);
 
-    } 
+    }
+   }elseif(isnull($migrated) || $migrated == false){
+	$migrationRequired = array(
+		'success' => false,
+		'errorcode' => 401
+		'url' => 'Error: Please migrate to continue.'
+		'name' => 'Error: Please migrate to continue.'
+		)
+		echo json_encode($migrationRequired);
+   }
 }

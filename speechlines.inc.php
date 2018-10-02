@@ -1,58 +1,27 @@
 <?php
 $dbConnFailed = "
-<html>
-<style>
-	<style type=\"text/css\">
-		p {
-			color: #fff;
-			font-family: Helvetica, Whitney;
-		}
-	</style>
-	<p>Connection to the database failed, Please contact an administrator.</p>
-	</html>";
-$alreadyUsed = "
-<html>
-<style>
-	<style type=\"text/css\">
-		p {
-			color: #fff;
-			font-family: Helvetica, Whitney;
-		}
-	</style>
-	<p>We're sorry but your token has already been used to invite someone! If you think this is in error, please contact an administrator</p>
-	</html>";
+{
+  \"success\": false,
+  \"errorcode\": 500,
+  \"description\": \"Connection to the database failed, Please contact an administrator.\"
+}";
 $tokenIsBlocked = "
-<html>
-<style>
-	<style type=\"text/css\">
-		p {
-			color: #fff;
-			font-family: Helvetica, Whitney;
-		}
-	</style>
-	<p>Your token has been blocked from accessing the service. If you think this is in error, please contact an admininstrator.</p>
-	</html>";
+{
+  \"success\": false,
+  \"errorcode\": 403,
+  \"description\": \"Your token has been blocked from accessing the service. If you think this is in error, please contact an admininstrator.\"
+}";
 $invalidToken = "
-<html>
-<style>
-	<style type=\"text/css\">
-		p {
-			color: #fff;
-			font-family: Helvetica, Whitney;
-		}
-	</style>
-	<p>Your token is NOT authorized to use this service. If you think this is in error, please contact an administrator</p>
-	</html>";
+{
+  \"success\": false,
+  \"errorcode\": 403,
+  \"description\": \"Your token is NOT authorized to use this service. If you think this is in error, please contact an administrator.\"
+}";
 
 $noToken = "
-<html>
-<style>
-	<style type=\"text/css\">
-		p {
-			color: #fff;
-			font-family: Helvetica, Whitney;
-		}
-	</style>
-	<p>You need to provide a token! (?key parameter)</p>
-	</html>";
+{
+  \"success\": false,
+  \"errorcode\": 401,
+  \"description\": \"You need to provide a token! (?key parameter)\"
+}";
 ?>

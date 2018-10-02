@@ -39,7 +39,7 @@ Testing is fairly simple, just POST to the API and voila!
 
 ## Deployment
 
-What's a production environment? In all seriousness, this is not production-ready and you shouldn't be trying to put it into prod
+Install, Test, Verify, done
 
 ## Built With
 

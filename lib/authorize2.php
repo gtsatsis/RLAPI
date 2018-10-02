@@ -18,6 +18,8 @@ require '../vendor/autoload.php'; // Composer Autoloader
 require '../speechlines.inc.php'; // Speech Lines ($messages for the user)
 require '../../../rl1-pgdbcreds.inc.php'; // Database Credentials
 
+$rlmeInstance = false;
+
 /**
  * Authenticate a user token
  *
@@ -33,7 +35,7 @@ function authenticate($token)
      * 
      * @todo Avoid globals replacing them with something else
      */
-    global $allowed, $donorLevel;
+    global $allowed, $donorLevel, $isAdmin;
 
     $token = explode(' ', $token);
 
@@ -77,6 +79,13 @@ function authenticate($token)
         if(is_null($isblocked) or empty($isblocked)) {
             $allowed = true;
         }
+        
+        /* Define $hasPaid and the hasPaid check */
+        
+        if($rlmeInstance = true){
+        $migrated = $userRow->migratedtorlauth;
+        }
+        
         /* Define $donationLevel and the donor levels */
         $donationLevel = $userRow->donationlevel;
         if($donationLevel == "free" || $donationLevel == null){
@@ -88,6 +97,7 @@ function authenticate($token)
         if($donationLevel == "gold"){
         $donorLevel = "gold";
         }
+        
         /* Define $isAdmin and add proper checks */
         if($userRow->is_admin == 't'){
             $isAdmin = true;
